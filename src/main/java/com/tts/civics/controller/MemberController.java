@@ -8,10 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tts.civics.model.Member;
+import com.tts.civics.model.CongressPerson;
 import com.tts.civics.service.MemberServiceImpl;
 
 @RestController
@@ -30,22 +29,22 @@ public class MemberController {
 	}
 		
 	@GetMapping("/members") 
-	public List<Member> getAllMembers() {
+	public List<CongressPerson> getAllMembers() {
 		return memberServiceImpl.getAllMembers();
 	}
 	
 	@GetMapping("/member/{id}") 
-	public Member getMemberById(@PathVariable Long id) {
+	public CongressPerson getMemberById(@PathVariable Long id) {
 		return memberServiceImpl.getMemberById(id);
 	}
 	
 	@PostMapping("/member")
-	public void postMember(@RequestParam Member member) {
+	public void postMember(CongressPerson member) {
 		memberServiceImpl.postMember(member);
 	}
 	
 	@PutMapping("/member/{id}")
-	public void updateMember(@PathVariable Long id, @RequestParam Member member) {
+	public void updateMember(@PathVariable Long id, CongressPerson member) {
 		memberServiceImpl.updateMember(id,  member);
 	}
 	
@@ -55,7 +54,7 @@ public class MemberController {
 	}
 	
 	@DeleteMapping("/member/{id}") 
-	public void deleteMember(Long id) {
+	public void deleteMember(@PathVariable Long id) {
 		memberServiceImpl.deleteMember(id);
 	}
 	

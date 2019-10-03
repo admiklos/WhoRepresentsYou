@@ -19,8 +19,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.tts.civics.model.Member;
-import com.tts.civics.model.Member.ChamberEnum;
+import com.tts.civics.model.CongressPerson;
+import com.tts.civics.model.CongressPerson.ChamberEnum;
 import com.tts.civics.repository.MemberRepository;
 import com.tts.civics.service.MemberServiceImpl;
 import com.tts.civics.service.MemberServiceInt;
@@ -42,8 +42,8 @@ public class MemberServiceTest {
 	@MockBean
 	MemberRepository memberRepository;
 	
-	private static Member member;
-	private static List<Member> members;
+	private static CongressPerson member;
+	private static List<CongressPerson> members;
 	
 	
 
@@ -57,22 +57,30 @@ public class MemberServiceTest {
 
 	@Before
 	public void setUp() throws Exception {
-		member = new Member();
-		member.setName("Elizabeth Warren");
-		member.setPhoto("https://theunitedstates.io/images/congress/original/W000817.jpg");
+		member = new CongressPerson();
+		member.setMemberId("W000817");
+		member.setTheName("Elizabeth Warren");
+		member.setDob("1949-06-22");
+		member.setTheState("MASSACHUSETTS");
+		member.setaPhoto("https://theunitedstates.io/images/congress/original/W000817.jpg");
 		member.setWhichChamber(ChamberEnum.SENATE);
-		member.setState("MA");
+		member.setWhichParty("Democrat");
+		member.setUrl("https://www.warren.senate.gov");
 		member.setIsNewMember(false);
 		member.setIsLeavingOffice(false);
-		member.setNumYearsInOffice(20);
-		member.setStatements("Warren, Pocan, and Ocasio-Cortez Investigate...");
-        member.setBillsIntroduced("A bill to direct the Administrator of the Federal Aviation Administration ...");
-        member.setOfficeExpenses(-1.0);
-        member.setTravelExpenses(-1.0);
+		member.setNumYearsInOffice(20);		
+		member.setNumBillsSponsored(40);
+		member.setVotesWithPartyPercent(73.98);
+		member.setMissedVotesPercent(37.38);
+		member.setTravelExpenses(-1.0);
+		member.setOfficeExpenses(-1.0);
+		member.setTwitter("SenWarren");
+		member.setFacebook("senatorelizabethwarren");
+		member.setYoutube("senelizabethwarren");
 		members = new ArrayList<>();
 		members.add(member);
-		member.setName("Bernie Sanders");
-		member.setState("AZ");
+		member.setTheName("Bernie Sanders");
+		member.setTheState("AZ");
 		member.setNumYearsInOffice(50);
 		members.add(member);
 
@@ -85,14 +93,14 @@ public class MemberServiceTest {
 	@Test
 	public void givenMemberId_returnMember() {
 		Mockito.when(memberRepository.findMemberById(1L)).thenReturn(member);		
-		Member found = memberRepository.findMemberById(1L);	
+		CongressPerson found = memberRepository.findMemberById(1L);	
 		assertThat(member).isEqualToComparingFieldByField(found);
 	}
 	
 	@Test
 	public void ifFindAll_returnStudents() {
 		Mockito.when(memberRepository.findAll()).thenReturn(members);
-		List<Member> actual = memberService.getAllMembers();
+		List<CongressPerson> actual = memberService.getAllMembers();
 		assertEquals(members, actual);
 	}
 }

@@ -20,8 +20,8 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.tts.civics.model.Member;
-import com.tts.civics.model.Member.ChamberEnum;
+import com.tts.civics.model.CongressPerson;
+import com.tts.civics.model.CongressPerson.ChamberEnum;
 import com.tts.civics.repository.MemberRepository;
 
 @RunWith(SpringRunner.class)
@@ -41,23 +41,31 @@ public class MemberApplicationIntegrationTest {
 	@Autowired
 	private MockMvc mvc;
 	
-	private Member member;
+	private CongressPerson member;
 
 	@Before
 	public void setUp() throws Exception {
-		Member member = new Member();
-		member.setName("Elizabeth Warren");
-		member.setPhoto("https://theunitedstates.io/images/congress/original/W000817.jpg");
+		member = new CongressPerson();
+		member.setMemberId("W000817");
+		member.setTheName("Elizabeth Warren");
+		member.setDob("1949-06-22");
+		member.setTheState("MASSACHUSETTS");
+		member.setaPhoto("https://theunitedstates.io/images/congress/original/W000817.jpg");
 		member.setWhichChamber(ChamberEnum.SENATE);
-		member.setState("MA");
+		member.setWhichParty("Democrat");
+		member.setUrl("https://www.warren.senate.gov");
 		member.setIsNewMember(false);
 		member.setIsLeavingOffice(false);
-		member.setNumYearsInOffice(20);
-		member.setStatements("Warren, Pocan, and Ocasio-Cortez Investigate...");
-        member.setBillsIntroduced("A bill to direct the Administrator of the Federal Aviation Administration ...");
-        member.setOfficeExpenses(-1.0);
-        member.setTravelExpenses(-1.0);
-		memberRepository.save(member);
+		member.setNumYearsInOffice(20);		
+		member.setNumBillsSponsored(40);
+		member.setVotesWithPartyPercent(73.98);
+		member.setMissedVotesPercent(37.38);
+		member.setTravelExpenses(-1.0);
+		member.setOfficeExpenses(-1.0);
+		member.setTwitter("SenWarren");
+		member.setFacebook("senatorelizabethwarren");
+		member.setYoutube("senelizabethwarren");
+		member = memberRepository.save(member);
 	}
 
 	@After
@@ -72,7 +80,7 @@ public class MemberApplicationIntegrationTest {
 				get("/member/" + id).contentType(MediaType.APPLICATION_JSON))
 					.andExpect(status().isOk())
 					.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-					.andExpect(jsonPath("$.name", is("Elizabeth Warren")));
+					.andExpect(jsonPath("$.theName", is("Elizabeth Warren")));
 	}
 
 	@Test
@@ -82,7 +90,7 @@ public class MemberApplicationIntegrationTest {
 					.andExpect(status().isOk())
 					.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
 					.andExpect(jsonPath("$", hasSize(1)))
-					.andExpect(jsonPath("$[0].name", is("Elizabeth Warren")));
+					.andExpect(jsonPath("$[0].theName", is("Elizabeth Warren")));
 	}
 
 }

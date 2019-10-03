@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tts.civics.model.Member;
+import com.tts.civics.model.CongressPerson;
 import com.tts.civics.repository.MemberRepository;
 
 @Service
@@ -15,35 +15,45 @@ public class MemberServiceImpl implements MemberServiceInt {
 	private MemberRepository memberRepository;
 	
 	@Override
-	public List<Member> getAllMembers() {
+	public List<CongressPerson> getAllMembers() {
 		return memberRepository.findAll();
 	}
 	
 	@Override
-	public Member getMemberById(Long id) {
+	public CongressPerson getMemberById(Long id) {
 		return memberRepository.findMemberById(id);
 	}
 	
 	@Override
-	public void postMember(Member member) {
+	public void postMember(CongressPerson member) {
 		memberRepository.save(member);
 	}
 	
 	@Override
-	public void updateMember(Long id, Member member) {
-		Member updatedMember = memberRepository.findMemberById(id);
-		updatedMember.setName(member.getName());
-		updatedMember.setPhoto(member.getPhoto());
+	public void updateMember(Long id, CongressPerson member) {
+		CongressPerson updatedMember = memberRepository.findMemberById(id);
+
+		updatedMember.setMemberId(member.getMemberId());
+		updatedMember.setTheName(member.getTheName());
+		updatedMember.setDob(member.getDob());
+		updatedMember.setTheState(member.getTheState());
+		updatedMember.setaPhoto(member.getaPhoto());
 		updatedMember.setWhichChamber(member.getWhichChamber());
-		updatedMember.setState(member.getState());
+		updatedMember.setWhichParty(member.getWhichParty());
+		updatedMember.setUrl(member.getUrl());
 		updatedMember.setIsNewMember(member.getIsNewMember());
 		updatedMember.setIsLeavingOffice(member.getIsLeavingOffice());
-		updatedMember.setNumYearsInOffice(member.getNumYearsInOffice());
-		updatedMember.setStatements(member.getStatements());
-		updatedMember.setBillsIntroduced(member.getBillsIntroduced());
-		updatedMember.setOfficeExpenses(member.getOfficeExpenses());
+		updatedMember.setNumYearsInOffice(member.getNumYearsInOffice());		
+		updatedMember.setNumBillsSponsored(member.getNumBillsSponsored());
+		updatedMember.setVotesWithPartyPercent(member.getVotesWithPartyPercent());
+		updatedMember.setMissedVotesPercent(member.getMissedVotesPercent());
 		updatedMember.setTravelExpenses(member.getTravelExpenses());
+		updatedMember.setOfficeExpenses(member.getOfficeExpenses());
+		updatedMember.setTwitter(member.getTwitter());
+		updatedMember.setFacebook(member.getFacebook());
+		updatedMember.setYoutube(member.getYoutube());
 		
+		memberRepository.save(updatedMember);
 	}
 	
 	@Override
