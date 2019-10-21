@@ -12,7 +12,7 @@ public class Player {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
-	private String playerName;
+	private String  playerName;
 	private Integer lastScore;
 	private Integer totalGamesPlayed;
 	private Integer percentageWon;
